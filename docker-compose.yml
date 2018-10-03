@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  clevis:
+    restart: unless-stopped
+    image: austingriffith/clevis:latest
+    volumes:
+      - .:/dapp
+    ports:
+      - "3000:3000"
+
+  testrpc:
+    image: trufflesuite/ganache-cli
+    ports:
+      - "8545:8545"
+
+  bouncer-proxy-redis:
+    restart: unless-stopped
+    image: redis:4.0-alpine
+    volumes:
+      - redis:/data
+    ports:
+      - "57300:6379"
+
+  backend:
+    restart: unless-stopped
+    image: node:alpine
+    cmd: "nodemon index.js"
+    ports:
+      -
+
+volumes:
+  redis:

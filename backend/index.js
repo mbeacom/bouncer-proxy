@@ -1,4 +1,11 @@
+#!/usr/bin/env node
+
 "use strict";
+
+const redisHost = process.env.REDIS_HOST || 'bouncer-proxy-redis',
+      redisPort = process.env.REDIS_PORT || 6379,
+      environment = process.env.ENVIRONMENT || 'local';
+
 const EventParser = require('./modules/eventParser.js');
 const LiveParser = require('./modules/liveParser.js');
 const express = require('express');
@@ -34,12 +41,6 @@ if(!NETWORK){
 }
 console.log("NETWORK:",NETWORK)
 
-let redisHost = 'localhost'
-let redisPort = 57300
-if(NETWORK>0&&NETWORK<9){
- redisHost = 'cryptogsnew.048tmy.0001.use2.cache.amazonaws.com'
- redisPort = 6379
-}
 let redis = new Redis({
   port: redisPort,
   host: redisHost,
